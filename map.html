@@ -2,88 +2,79 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>안산 맛집 지도 - 한양대 ERICA</title>
+  
+  <link rel="stylesheet" href="style.css">
 
-  <!-- 공통 스타일 -->
-  <link rel="stylesheet" href="style.css" />
-
-  <!-- Leaflet CSS -->
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-  />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
   <style>
-    /* 지도 전용 스타일만 추가 */
-    .map-page .content-inner {
-      max-width: 1100px;
-      margin: 0 auto;
+    /* 지도가 들어갈 공간 스타일 */
+    .map-wrapper {
+        width: 100%;
+        height: calc(100vh - 100px); /* 높이 설정 */
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        z-index: 1; /* 메뉴보다 뒤에 있게 */
     }
-
     #map {
       width: 100%;
-      height: 70vh;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      height: 100%;
     }
   </style>
 </head>
-<body class="map-page">
-  <div class="layout">
-    <!-- 왼쪽 사이드바 -->
-    <aside class="sidebar">
-      <div class="logo">한양대 ERICA 맛집</div>
-      <nav class="nav">
-        <a href="index.html">홈</a>
-        <a href="list.html">전체 맛집</a>
-        <a href="map.html" class="active">지도 보기</a>
-      </nav>
-    </aside>
+<body>
 
-    <!-- 오른쪽 메인 영역 -->
+  <div class="container">
+    <nav class="sidebar">
+        <ul>
+            <li><a href="index.html">홈 (처음으로)</a></li>
+            <li><a href="list.html">전체 맛집 (리스트)</a></li>
+            <li><a href="map.html">지도 보기</a></li>
+        </ul>
+    </nav>
+
     <main class="content">
-      <div class="content-inner">
-        <header class="page-header">
-          <h1>안산 맛집 지도</h1>
-          <p>한양대 ERICA 주변 우리가 직접 찾은 맛집 위치를 한눈에 볼 수 있어요.</p>
-        </header>
-
-        <section class="map-section">
-          <div id="map"></div>
-        </section>
-      </div>
+        <h1>맛집 지도 🗺️</h1>
+        <div class="map-wrapper">
+            <div id="map"></div>
+        </div>
     </main>
   </div>
 
-  <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-  <!-- 맛집 데이터 -->
   <script src="data.js"></script>
 
   <script>
-    // 1. 지도 생성 (ERICA 중심)
-    const map = L.map('map').setView([37.2989, 126.8377], 15);
+    // --- 친구가 만든 지도 기능 시작 ---
+    
+    // 1. 지도 생성 (한양대 에리카 정문 근처 좌표)
+    const map = L.map('map').setView([37.298, 126.835], 16);
 
-    // 2. 배경 지도
+    // 2. 배경 지도 그림 (OpenStreetMap)
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; OpenStreetMap'
     }).addTo(map);
 
-    // 3. 맛집 마커 찍기
+    // 3. 마커 찍기
     restaurantList.forEach(store => {
-      if (typeof store.lat !== "number" || typeof store.lng !== "number") return;
+      // 좌표(lat, lng)가 없으면 건너뛰기
+      if (!store.lat || !store.lng) return;
 
       const marker = L.marker([store.lat, store.lng]).addTo(map);
 
+      // 핀 눌렀을 때 나오는 말풍선 꾸미기
       const popupHtml = `
-        <div style="min-width: 200px;">
-          <strong>${store.name}</strong><br/>
-          <span style="font-size:13px;">${store.desc}</span><br/>
-          <span style="font-size:12px; color:#555;">영업시간: ${store.hours}</span><br/>
-          <span style="font-size:12px; color:#777;">주소: ${store.address}</span>
+        <div style="width:200px; text-align:center;">
+          <img src="${store.img}" style="width:100%; height:100px; object-fit:cover; border-radius:5px; margin-bottom:5px;" onerror="this.src='https://via.placeholder.com/200'">
+          <strong style="font-size:16px; display:block; margin-bottom:5px;">${store.name}</strong>
+          <span style="font-size:13px; color:#555;">${store.desc}</span><br/>
+          <hr style="margin:5px 0; border:0; border-top:1px solid #eee;">
+          <span style="font-size:12px; color:#e74c3c; font-weight:bold;">${store.hours}</span>
         </div>
       `;
 
@@ -92,5 +83,3 @@
   </script>
 </body>
 </html>
-
-
