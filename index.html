@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>한양대 ERICA 맛집</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <nav class="sidebar">
+            <ul>
+
+                <li><a href="index.html">홈</a></li>
+                <li><a href="list.html">전체 맛집</a></li>
+                <li><a href="map.html">지도 보기</a></li>
+            </ul>
+           
+        </nav>
+
+        <main class="content">
+            <h1>한양대 ERICA 맛집</h1>
+            <p style="margin-bottom: 20px; color: #666;">오늘의 추천 맛집</p>
+            <div id="recommendation-box" class="recommend-card">
+            </div>
+        </main>
+    </div>
+
+</body>
+<script src="data.js"></script>
+<script>
+    // 1. 맛집 리스트 중 하나를 랜덤으로 뽑기
+    const randomIndex = Math.floor(Math.random() * restaurantList.length);
+    const todayPick = restaurantList[randomIndex];
+
+    // 2. 화면에 표시할 HTML 만들기
+    const htmlContent = `
+        <div class="img-container">
+            <img src="${todayPick.img}" alt="${todayPick.name}" onerror="this.src='https://via.placeholder.com/400x300?text=이미지+준비중'">
+        </div>
+        <div class="text-content">
+            <span class="badge">오늘의 PICK!</span>
+            <h2>${todayPick.name}</h2>
+            <p class="desc">"${todayPick.desc}"</p>
+            <p class="menu">추천 메뉴: ${todayPick.menu}</p>
+            <p class="address">📍 ${todayPick.address}</p>
+        </div>
+    `;
+
+    // 3. 아까 만든 빈 상자에 집어넣기
+    document.getElementById('recommendation-box').innerHTML = htmlContent;
+</script>
+</html>
