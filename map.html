@@ -4,26 +4,51 @@
   <meta charset="UTF-8" />
   <title>안산 맛집 지도 - 한양대 ERICA</title>
 
-  <!-- Leaflet CSS -->
+  <!-- 공통 스타일 (사이드바, 레이아웃 등) -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Leaflet CSS (지도용) -->
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
   />
 
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-    }
+    /* 지도 박스만 추가 스타일 주기 */
     #map {
       width: 100%;
-      height: 100vh; /* 화면 꽉 채우기 */
+      height: 70vh;         /* 화면의 70% 높이 */
+      border-radius: 16px;  /* 모서리 둥글게 (카드 느낌 맞추기용) */
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
     }
   </style>
 </head>
 <body>
-  <div id="map"></div>
+  <div class="layout">
+    <!-- 왼쪽 사이드바 (홈 / 전체 맛집 / 지도 보기) -->
+    <aside class="sidebar">
+      <div class="logo">한양대 ERICA 맛집</div>
+      <nav class="nav">
+        <a href="index.html">홈</a>
+        <a href="list.html">전체 맛집</a>
+        <a href="map.html" class="active">지도 보기</a>
+      </nav>
+    </aside>
+
+    <!-- 오른쪽 메인 영역 -->
+    <main class="content">
+      <header class="page-header">
+        <h1>안산 맛집 지도</h1>
+        <p>한양대 ERICA 주변 우리가 직접 찾은 맛집 위치를 한눈에 볼 수 있어요.</p>
+      </header>
+
+      <!-- 여기 안에 지도가 들어감 -->
+      <section class="map-section">
+        <div id="map"></div>
+      </section>
+    </main>
+  </div>
 
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -33,25 +58,24 @@
 
   <script>
     // 1. 지도 생성 – 한양대 ERICA 근처를 중심으로
-    // (좌표는 대략 에리카 캠퍼스 근처 값 예시)
     const map = L.map('map').setView([37.2989, 126.8377], 15);
 
-    // 2. 배경 지도 타일 (OpenStreetMap)
+    // 2. 배경 지도 타일
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; OpenStreetMap'
     }).addTo(map);
 
-    // 3. 맛집 마커 찍기
+    // 3. 맛집 리스트 돌면서 마커 찍기
     restaurantList.forEach(store => {
-      // lat/lng 없는 데이터는 건너뛰기
+      // 좌표 없는 데이터는 건너뛰기
       if (!store.lat || !store.lng) return;
 
       const marker = L.marker([store.lat, store.lng]).addTo(map);
 
-      // 팝업에 들어갈 HTML (가게이름 + 한줄소개 + 영업시간)
+      // 마커 클릭 팝업 내용 (이름 / 한줄소개 / 영업시간)
       const popupHtml = `
-        <div style="min-width:180px;">
+        <div style="min-width: 200px;">
           <strong>${store.name}</strong><br/>
           <span style="font-size:13px;">${store.desc}</span><br/>
           <span style="font-size:12px; color:#555;">영업시간: ${store.hours}</span><br/>
