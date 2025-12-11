@@ -76,7 +76,7 @@ const restaurantList = [
         img: "images/viet.jpg",
         hours: "11:00 ~ 21:00",
         lat: 37.301106, 
-        lng: 126.827929
+        lng: 126.837929
     },
 
     // [쪽문 상권] - 기숙사/셔틀콕 근처
