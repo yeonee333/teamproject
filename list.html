@@ -66,6 +66,14 @@
 
         <main class="content">
             <h1>맛집 리스트 📋</h1>
+            <div class="filter-container" style="margin-bottom: 20px;">
+                <button class="filter-btn active" onclick="filterList('전체')">전체</button>
+                <button class="filter-btn" onclick="filterList('한식')">한식</button>
+                <button class="filter-btn" onclick="filterList('중식')">중식</button>
+                <button class="filter-btn" onclick="filterList('일식')">일식</button>
+                <button class="filter-btn" onclick="filterList('베트남식')">베트남식</button>
+                <button class="filter-btn" onclick="filterList('카페')">카페</button>
+            </div>
             <div id="restaurant-list" class="card-container">
                 </div>
         </main>
