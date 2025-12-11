@@ -64,8 +64,8 @@ const restaurantList = [
         menu: "순대국밥",
         img: "images/sundae.jpg",
         hours: "08:00 ~ 22:00",
-        lat: 37.302660,
-        lng: 126.837165
+        lat: 37.302536,
+        lng: 126.836709
     },
     {
         name: "인더비엣",
@@ -110,7 +110,7 @@ const restaurantList = [
         menu: "짜장면, 짬뽕",
         img: "images/china.jpg",
         hours: "10:00 ~ 21:00",
-        lat: 37.303327,
-        lng: 126.846910
+        lat: 37.299594,
+        lng: 126.838583
     }
 ];
