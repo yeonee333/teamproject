@@ -9,8 +9,8 @@ const restaurantList = [
         menu: "소다 음료, 커피",
         img: "images/soda.jpg",
         hours: "12:00 ~ 22:00",
-        lat: 37.29965,  // 학교 정문 바로 앞
-        lng: 126.83730
+        lat: 37.300732,  // 학교 정문 바로 앞
+        lng: 126.838392
     },
     {
         name: "카바레식당",
@@ -20,8 +20,8 @@ const restaurantList = [
         menu: "카레, 가라아게",
         img: "images/curry.jpg",
         hours: "11:00 ~ 21:00",
-        lat: 37.30045, 
-        lng: 126.83705
+        lat: 37.301193, 
+        lng: 126.837661
     },
     {
         name: "에비수",
@@ -31,8 +31,8 @@ const restaurantList = [
         menu: "덮밥, 우동",
         img: "images/ebisu.jpg",
         hours: "10:30 ~ 21:00",
-        lat: 37.30065,
-        lng: 126.83880
+        lat: 37.302047,
+        lng: 126.839353
     },
     {
         name: "동양솥밥",
@@ -42,8 +42,8 @@ const restaurantList = [
         menu: "스테이크 솥밥",
         img: "images/rice.jpg",
         hours: "10:00 ~ 21:00",
-        lat: 37.30095,
-        lng: 126.83915
+        lat: 37.300753,
+        lng: 126.838593
     },
     {
         name: "찌개찌개",
@@ -53,8 +53,8 @@ const restaurantList = [
         menu: "김치찌개",
         img: "images/stew.jpg",
         hours: "09:00 ~ 20:30",
-        lat: 37.30090,
-        lng: 126.83935
+        lat: 37.300945,
+        lng: 126.838003
     },
     {
         name: "현가네 병천순대",
@@ -64,8 +64,8 @@ const restaurantList = [
         menu: "순대국밥",
         img: "images/sundae.jpg",
         hours: "08:00 ~ 22:00",
-        lat: 37.30130,
-        lng: 126.83960
+        lat: 37.302660,
+        lng: 126.837165
     },
     {
         name: "인더비엣",
@@ -75,8 +75,8 @@ const restaurantList = [
         menu: "쌀국수, 월남쌈",
         img: "images/viet.jpg",
         hours: "11:00 ~ 21:00",
-        lat: 37.30030, 
-        lng: 126.83940
+        lat: 37.301106, 
+        lng: 126.827929
     },
 
     // [쪽문 상권] - 기숙사/셔틀콕 근처
@@ -88,8 +88,8 @@ const restaurantList = [
         menu: "마라탕, 꿔바로우",
         img: "images/mara.jpg",
         hours: "11:00 ~ 22:00",
-        lat: 37.29655, 
-        lng: 126.84235
+        lat: 37.299793, 
+        lng: 126.838355
     },
     {
         name: "레이지그라운드",
@@ -99,8 +99,8 @@ const restaurantList = [
         menu: "크로플, 아메리카노",
         img: "images/lazy.jpg",
         hours: "11:00 ~ 22:00",
-        lat: 37.29675,
-        lng: 126.84245
+        lat: 37.299937,
+        lng: 126.838163
     },
     {
         name: "북경반점",
@@ -110,7 +110,7 @@ const restaurantList = [
         menu: "짜장면, 짬뽕",
         img: "images/china.jpg",
         hours: "10:00 ~ 21:00",
-        lat: 37.29630,
-        lng: 126.84210
+        lat: 37.303327,
+        lng: 126.846910
     }
 ];
