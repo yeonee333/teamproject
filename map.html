@@ -34,15 +34,7 @@
             <li><a href="list.html">전체 맛집</a></li>
             <li><a href="map.html">지도 보기</a></li>
         </ul>
-    </nav>
-    <nav class="sidebar">
-    <ul>
-        <li><a href="index.html">홈</a></li>
-        <li><a href="list.html">전체 맛집</a></li>
-        <li><a href="map.html">지도 보기</a></li>
-    </ul>
-    
-    <div style="margin-top: 30px; padding: 0 30px;">
+        <div style="margin-top: 30px; padding: 0 30px;">
         <button id="theme-toggle" onclick="toggleTheme()" 
                 style="background:transparent; border:1px solid #555; color:white; padding:8px 15px; border-radius:20px; cursor:pointer; width:100%;">
             🌙 다크모드
@@ -94,6 +86,34 @@
 
       marker.bindPopup(popupHtml);
     });
+    // --- 다크모드 기능 스크립트 ---
+    
+    // 1. 저장된 설정 불러오기 (들어오자마자 실행)
+    const savedTheme = localStorage.getItem('theme');
+    const themeBtn = document.getElementById('theme-toggle');
+
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+        if(themeBtn) themeBtn.innerText = "☀️ 라이트모드";
+    }
+
+    // 2. 버튼 눌렀을 때 실행되는 함수
+    function toggleTheme() {
+        // 다크모드 클래스를 껐다 켰다 함 (toggle)
+        document.body.classList.toggle('dark-mode');
+
+        // 현재 상태 확인
+        const isDark = document.body.classList.contains('dark-mode');
+
+        // 버튼 글자 바꾸기 & 저장하기
+        if (isDark) {
+            themeBtn.innerText = "☀️ 라이트모드";
+            localStorage.setItem('theme', 'dark'); // 'dark'라고 기억해!
+        } else {
+            themeBtn.innerText = "🌙 다크모드";
+            localStorage.setItem('theme', 'light'); // 'light'라고 기억해!
+        }
+    }
   </script>
 </body>
 </html>
