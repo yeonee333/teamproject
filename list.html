@@ -107,20 +107,142 @@
                 <li><a href="map.html">지도 보기</a></li>
             </ul>
         </nav>
-        <nav class="sidebar">
-    <ul>
-        <li><a href="index.html">홈</a></li>
-        <li><a href="list.html">전체 맛집</a></li>
-        <li><a href="map.html">지도 보기</a></li>
-    </ul>
+
+        <main class="content">
+            <h1>맛집 리스트 📋</h1>
+            <div class="filter-container" style="margin-bottom: 20px;">
+                <button class="filter-btn active" onclick="filterList('전체')">전체</button>
+                <button class="filter-btn" onclick="filterList('한식')">한식</button>
+                <button class="filter-btn" onclick="filterList('중식')">중식</button>
+                <button class="filter-btn" onclick="filterList('일식')">일식</button>
+                <button class="filter-btn" onclick="filterList('베트남식')">베트남식</button>
+                <button class="filter-btn" onclick="filterList('카페')">카페</button>
+            </div>
+            <div class="filter-container" style="margin-bottom: 20px;">
+                <button class="filter-btn active" onclick="filterList('전체')">전체</button>
+                <button class="filter-btn" onclick="filterList('카페')">카페</button>
+                <button class="filter-btn" onclick="showMyLikes()" style="color: #ff4757; font-weight: bold;">❤️ 찜한 맛집</button>
+            </div>
+            <div id="restaurant-list" class="card-container">
+                </div>
+        </main>
+    </div>
+
+   <script src="data.js"></script>
+<script>
+    const listContainer = document.getElementById('restaurant-list');
     
-    <div style="margin-top: 30px; padding: 0 30px;">
-        <button id="theme-toggle" onclick="toggleTheme()" 
-        style="background:transparent; border:1px solid #555; color:white; padding:8px 15px; border-radius:20px; cursor:pointer; width:100%;">
-        🌙 다크모드
-    </button>
-</div>
-</nav>
+    // 1. 브라우저 저장소에서 찜한 목록 꺼내오기 (없으면 빈 배열)
+    // 예: ['인더비엣', '파익스피크소다']
+    let myLikes = JSON.parse(localStorage.getItem('myFoodMapLikes')) || [];
+
+    // 2. 초기 실행: 전체 리스트 보여주기
+    showList(restaurantList);
+
+    // 3. 리스트 그리기 함수 (하트 상태 체크 포함)
+    function showList(data) {
+        listContainer.innerHTML = ""; 
+
+        if(data.length === 0) {
+            listContainer.innerHTML = "<div style='grid-column: 1/-1; text-align:center; padding:50px;'><h3>아직 찜한 맛집이 없어요! 😅</h3><p>하트를 눌러 단골집을 등록해보세요.</p></div>";
+            return;
+        }
+
+        data.forEach(store => {
+            // 이 가게가 찜 목록에 있는지 확인
+            const isLiked = myLikes.includes(store.name); 
+            const heartClass = isLiked ? 'active' : ''; // 찜했으면 빨간색, 아니면 회색
+            const heartIcon = isLiked ? '❤️' : '🤍';   // 아이콘 모양도 변경
+
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <button class="like-btn ${heartClass}" onclick="toggleLike('${store.name}')">
+                    ${heartIcon}
+                </button>
+
+                <img src="${store.img}" alt="${store.name}" class="card-image" onerror="this.src='https://via.placeholder.com/300x180?text=No+Image'">
+                <div class="card-content">
+                    <span class="category">${store.category}</span>
+                    <h3>${store.name}</h3>
+                    <p>${store.desc}</p>
+                    <p class="menu">⭐ 추천: ${store.menu}</p>
+                    <p style="font-size:12px; color:#999; margin-top:10px;">📍 ${store.address}</p>
+                    <a href="https://map.naver.com/v5/search/${store.name}" target="_blank" 
+                       style="display:block; margin-top:10px; text-align:center; background:#03C75A; color:white; text-decoration:none; padding:8px; border-radius:5px; font-size:13px;">
+                       네이버 지도로 길찾기 👉
+                    </a>
+                </div>
+            `;
+            listContainer.appendChild(card);
+        });
+    }
+
+    // 4. 하트 눌렀을 때 실행되는 함수 (저장/삭제)
+    function toggleLike(name) {
+        // 이미 찜한 상태면? -> 목록에서 제거
+        if (myLikes.includes(name)) {
+            myLikes = myLikes.filter(item => item !== name);
+        } 
+        // 찜 안 한 상태면? -> 목록에 추가
+        else {
+            myLikes.push(name);
+        }
+
+        // 바뀐 목록을 브라우저(localStorage)에 영구 저장
+        localStorage.setItem('myFoodMapLikes', JSON.stringify(myLikes));
+
+        // 화면 다시 그리기 (하트 색깔 즉시 반영)
+        // 현재 보고 있는 화면이 '찜한 맛집' 화면이면, 찜 취소 시 바로 사라지게 처리
+        const activeBtn = document.querySelector('.filter-btn[onclick="showMyLikes()"]');
+        if (activeBtn && activeBtn.classList.contains('active')) {
+            showMyLikes();
+        } else {
+            // 현재 보고 있던 리스트 상태 유지 (필터 적용된 상태라면 그 상태 유지)
+            const currentCategory = document.querySelector('.filter-btn.active').innerText;
+            filterList(currentCategory);
+        }
+    }
+
+    // 5. 카테고리 필터 함수
+    function filterList(category) {
+        resetButtons(); // 버튼 색 초기화
+        
+        // 클릭한 버튼 찾아서 색칠하기 (이름으로 찾기)
+        const buttons = document.querySelectorAll('.filter-btn');
+        buttons.forEach(btn => {
+            if(btn.innerText.includes(category)) btn.classList.add('active');
+        });
+
+        if (category === '전체') {
+            showList(restaurantList);
+        } else {
+            const filtered = restaurantList.filter(store => store.category === category);
+            showList(filtered);
+        }
+    }
+
+    // 6. 찜한 맛집만 모아보기 함수
+    function showMyLikes() {
+        resetButtons();
+        // 찜 버튼에 색칠하기
+        const likeBtn = document.querySelector('.filter-btn[onclick="showMyLikes()"]');
+        likeBtn.classList.add('active');
+
+        // 전체 맛집 중에 내 찜 목록(myLikes)에 이름이 있는 것만 골라내기
+        const likedStores = restaurantList.filter(store => myLikes.includes(store.name));
+        showList(likedStores);
+    }
+
+    // 버튼 스타일 초기화 도우미 함수
+    function resetButtons() {
+        const buttons = document.querySelectorAll('.filter-btn');
+        buttons.forEach(btn => btn.classList.remove('active'));
+    }
+</script>
+</body>
+</html>
+
 
         <main class="content">
             <h1>맛집 리스트 📋</h1>
