@@ -57,5 +57,33 @@
 
     // 3. 아까 만든 빈 상자에 집어넣기
     document.getElementById('recommendation-box').innerHTML = htmlContent;
+    // --- 다크모드 기능 스크립트 ---
+    
+    // 1. 저장된 설정 불러오기 (들어오자마자 실행)
+    const savedTheme = localStorage.getItem('theme');
+    const themeBtn = document.getElementById('theme-toggle');
+
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+        if(themeBtn) themeBtn.innerText = "☀️ 라이트모드";
+    }
+
+    // 2. 버튼 눌렀을 때 실행되는 함수
+    function toggleTheme() {
+        // 다크모드 클래스를 껐다 켰다 함 (toggle)
+        document.body.classList.toggle('dark-mode');
+
+        // 현재 상태 확인
+        const isDark = document.body.classList.contains('dark-mode');
+
+        // 버튼 글자 바꾸기 & 저장하기
+        if (isDark) {
+            themeBtn.innerText = "☀️ 라이트모드";
+            localStorage.setItem('theme', 'dark'); // 'dark'라고 기억해!
+        } else {
+            themeBtn.innerText = "🌙 다크모드";
+            localStorage.setItem('theme', 'light'); // 'light'라고 기억해!
+        }
+    }
 </script>
 </html>
