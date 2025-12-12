@@ -55,4 +55,30 @@
     // 3. 아까 만든 빈 상자에 집어넣기
     document.getElementById('recommendation-box').innerHTML = htmlContent;
 </script>
+<script>
+    // 1. 저장된 설정 불러오기
+    const savedTheme = localStorage.getItem('theme');
+    const themeBtn = document.getElementById('theme-toggle');
+
+    // 저장된게 'dark'면 다크모드 켜기
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+        if(themeBtn) themeBtn.innerText = "☀️ 라이트모드";
+    }
+
+    // 2. 버튼 누르면 실행되는 함수
+    function toggleTheme() {
+        document.body.classList.toggle('dark-mode'); // 클래스 껐다 켰다
+        
+        const isDark = document.body.classList.contains('dark-mode');
+        
+        if (isDark) {
+            if(themeBtn) themeBtn.innerText = "☀️ 라이트모드";
+            localStorage.setItem('theme', 'dark'); // 기억해!
+        } else {
+            if(themeBtn) themeBtn.innerText = "🌙 다크모드";
+            localStorage.setItem('theme', 'light'); // 기억해!
+        }
+    }
+</script>
 </html>
